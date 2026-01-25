@@ -1,3 +1,214 @@
+"use client";
+
+import Link from "next/link";
+import { useMemo, useState } from "react";
+
+type CalendarEvent = {
+  id: string;
+  title: string;
+  dueAtISO: string;
+};
+
+const calendarEvents: CalendarEvent[] = [
+  {
+    id: "a0",
+    title: "Group 3: A0. Website",
+    dueAtISO: "2026-01-27T12:59:00",
+  },
+  {
+    id: "a1-report",
+    title: "Group 3: A1. Conceptual Architecture report",
+    dueAtISO: "2026-02-14T12:59:00",
+  },
+  {
+    id: "a1-slides",
+    title: "Group 3: A1. Conceptual Architecture slides & video presentation",
+    dueAtISO: "2026-02-14T12:59:00",
+  },
+  {
+    id: "a2-report",
+    title: "Group 3: A2. Concrete Architecture report",
+    dueAtISO: "2026-03-14T11:59:00",
+  },
+  {
+    id: "a2-slides",
+    title: "Group 3: A2. Concrete Architecture slides & video presentation",
+    dueAtISO: "2026-03-14T11:59:00",
+  },
+  {
+    id: "a3-report",
+    title: "Group 3: A3. Proposal for Enhancement report",
+    dueAtISO: "2026-04-07T11:59:00",
+  },
+  {
+    id: "a3-slides",
+    title: "Group 3: A3. Proposal for Enhancement slides & video presentation",
+    dueAtISO: "2026-04-07T11:59:00",
+  },
+];
+
+const formatFullDate = (date: Date) =>
+  new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+
+const formatMonth = (date: Date) =>
+  new Intl.DateTimeFormat("en-US", { month: "short" })
+    .format(date)
+    .toUpperCase();
+
+const formatDay = (date: Date) =>
+  new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(date);
+
+const formatTime = (date: Date) =>
+  new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date);
+
+type CalendarWidgetProps = {
+  events: CalendarEvent[];
+  selectedDateISO?: string;
+  filterOnOrAfterSelectedDate?: boolean;
+};
+
+function CalendarWidget({
+  events,
+  selectedDateISO = "2026-01-21T12:00:00",
+  filterOnOrAfterSelectedDate = true,
+}: CalendarWidgetProps) {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isListCollapsed, setIsListCollapsed] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(selectedDateISO)
+  );
+
+  const visibleEvents = useMemo(() => {
+    const sorted = [...events].sort(
+      (a, b) =>
+        new Date(a.dueAtISO).getTime() - new Date(b.dueAtISO).getTime()
+    );
+
+    if (!filterOnOrAfterSelectedDate) {
+      return sorted;
+    }
+
+    const selectedStart = new Date(selectedDate);
+    selectedStart.setHours(0, 0, 0, 0);
+
+    return sorted.filter(
+      (event) => new Date(event.dueAtISO).getTime() >= selectedStart.getTime()
+    );
+  }, [events, filterOnOrAfterSelectedDate, selectedDate]);
+
+  return (
+    <section className="rounded-md border border-slate-200 bg-white">
+      <div className="flex items-center justify-between px-4 py-3">
+        <h2 className="text-base font-semibold text-sky-700">Calendar</h2>
+        <button
+          type="button"
+          className="flex h-7 w-7 items-center justify-center rounded text-slate-500"
+          aria-expanded={!isCollapsed}
+          aria-label="Toggle calendar widget"
+          onClick={() => setIsCollapsed((value) => !value)}
+        >
+          <svg
+            className={`h-4 w-4 ${
+              isCollapsed ? "rotate-180" : ""
+            }`}
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {!isCollapsed && (
+        <div className="border-t border-slate-200 px-4 pb-4">
+          <button
+            type="button"
+            className="mt-4 flex w-full items-center justify-between rounded border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm text-slate-700"
+            aria-label="Select date"
+            onClick={() => setSelectedDate(new Date(selectedDateISO))}
+          >
+            <span>{formatFullDate(selectedDate)}</span>
+            <span className="text-slate-500">▸</span>
+          </button>
+
+          <div className="mt-4 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-sky-700">
+              Upcoming events
+            </h3>
+            <button
+              type="button"
+              className="flex h-7 w-7 items-center justify-center rounded text-slate-500"
+              aria-expanded={!isListCollapsed}
+              aria-label="Toggle upcoming events"
+              onClick={() => setIsListCollapsed((value) => !value)}
+            >
+              <svg
+                className={`h-4 w-4 ${
+                  isListCollapsed ? "rotate-180" : ""
+                }`}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.21 8.29a.75.75 0 0 1 .02-1.08z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {!isListCollapsed && (
+            <div className="mt-3 max-h-64 overflow-y-auto pr-2">
+              {visibleEvents.map((event, index) => {
+                const dueDate = new Date(event.dueAtISO);
+                return (
+                  <div
+                    key={event.id}
+                    className={`flex gap-4 py-3 ${
+                      index === 0 ? "" : "border-t border-slate-100"
+                    }`}
+                  >
+                    <div className="w-12 text-center text-slate-600">
+                      <p className="text-xs font-semibold tracking-wide">
+                        {formatMonth(dueDate)}
+                      </p>
+                      <p className="text-lg font-semibold text-slate-800">
+                        {formatDay(dueDate)}
+                      </p>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-slate-800">
+                        {formatTime(dueDate)}
+                      </p>
+                      <p className="text-sm text-slate-700">{event.title}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
@@ -16,28 +227,12 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-4 text-slate-600">
-            <button
-              className="flex h-9 w-9 items-center justify-center rounded border border-slate-200 bg-white text-sm"
-              type="button"
-              aria-label="Apps"
-            >
-              ⬚
-            </button>
-            <button
-              className="flex h-9 w-9 items-center justify-center rounded border border-slate-200 bg-white text-sm"
-              type="button"
-              aria-label="Messages"
-            >
-              ✉
-            </button>
-            <button
-              className="flex h-9 w-9 items-center justify-center rounded border border-slate-200 bg-white text-sm"
-              type="button"
-              aria-label="Notifications"
-            >
-              🔔
-            </button>
+          <div className="flex items-center gap-6 text-slate-600">
+            <nav className="hidden items-center gap-4 text-sm font-medium sm:flex">
+              <Link className="text-blue-700 hover:underline" href="/about">
+                About us
+              </Link>
+            </nav>
             <div className="flex items-center gap-3">
               <div className="text-right">
                 <p className="text-xs text-slate-500">Student</p>
@@ -57,23 +252,108 @@ export default function Home() {
         <section className="overflow-hidden rounded-md border border-slate-200 bg-white">
           <div
             className="h-56 bg-cover bg-center"
-            style={{ backgroundImage: "url('/course-banner.svg')" }}
+            style={{ backgroundImage: "url('/gemini_pic.webp')" }}
             role="img"
             aria-label="Course banner"
           />
           <div className="border-t border-slate-200 px-6 py-4">
             <p className="text-sm text-slate-500">Course Home</p>
-            <h1 className="text-2xl font-semibold text-slate-900">
-              Apollo Project — Group 12
+            <h1 className="text-2xl font-semibold text-sky-700">
+              OMMKPN-Not-Found--404- group project
             </h1>
           </div>
         </section>
 
-        <section className="mt-8 grid gap-6 lg:grid-cols-[2fr_1fr]">
+        <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
+          <aside className="space-y-6">
+            <CalendarWidget events={calendarEvents} />
+            <section className="rounded-md border border-slate-200 bg-white p-5">
+              <h2 className="text-base font-semibold text-sky-700">
+                Office Hours
+              </h2>
+              <p className="mt-3 text-sm text-slate-700">
+                Tue & Thu • 2:00–3:30 PM
+              </p>
+              <p className="text-sm text-slate-700">Mitchell Hall, Room 218</p>
+              <p className="mt-2 text-sm text-slate-500">
+                Coordinator: Prof. A. Matos
+              </p>
+            </section>
+
+            <section className="rounded-md border border-slate-200 bg-white p-5">
+              <h2 className="text-base font-semibold text-sky-700">
+                Quick Links
+              </h2>
+              <ul className="mt-3 space-y-2 text-sm">
+                <li>
+                  <a
+                    className="text-blue-700 hover:underline"
+                    href="https://blog.csdn.net/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Apollo system structure
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="text-blue-700 hover:underline"
+                    href="https://www.geeksforgeeks.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Concurrency in operating system
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="text-blue-700 hover:underline"
+                    href="https://github.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Gflags
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="text-blue-700 hover:underline"
+                    href="https://aicurious.io/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Apollo Perception
+                  </a>
+                </li>
+              </ul>
+            </section>
+
+            <section className="rounded-md border border-slate-200 bg-white p-5">
+              <h2 className="text-base font-semibold text-sky-700">
+                Categories
+              </h2>
+              <p className="mt-3 text-sm text-slate-700">welcome (1)</p>
+            </section>
+
+            <section className="rounded-md border border-slate-200 bg-white p-5">
+              <h2 className="text-base font-semibold text-sky-700">
+                Recent Updates
+              </h2>
+              <p className="mt-3 text-sm text-slate-700">
+                2022-02-01 — Welcome to the Group 3 Project
+              </p>
+            </section>
+
+            <section className="rounded-md border border-slate-200 bg-white p-5">
+              <h2 className="text-base font-semibold text-sky-700">Archives</h2>
+              <p className="mt-3 text-sm text-slate-700">February 2022</p>
+            </section>
+          </aside>
+
           <div className="space-y-6">
             <section className="rounded-md border border-slate-200 bg-white p-6">
               <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-semibold text-sky-700">
                   Announcements
                 </h2>
                 <button
@@ -85,14 +365,15 @@ export default function Home() {
               </div>
               <div className="mt-4 space-y-3 text-sm text-slate-700">
                 <p className="font-semibold">
-                  WELCOME TO THE APOLLO PROJECT
+                  IMPORTANT: The Department of Totally Useless Research
                 </p>
                 <p>
-                  Imagine a morning commute without the dread of rush-hour
-                  traffic. Imagine children playing in total safety. Our
-                  autonomous vehicle systems re-imagine how we use roads so
-                  communities are safer and families have more time for what
-                  they love.
+                  Today&apos;s update confirms the campus squirrels have formed a
+                  tiny focus group to review our Wi‑Fi vibes. Their preliminary
+                  findings: more acorns, fewer emails. Please refrain from
+                  notifying the clouds; they are currently busy practicing
+                  geometry. This announcement has no impact on coursework,
+                  grading, or schedules.
                 </p>
                 <p className="text-xs text-slate-500">
                   Posted Feb 1, 2022 • Updated Apr 15, 2022
@@ -101,7 +382,7 @@ export default function Home() {
             </section>
 
             <section className="rounded-md border border-slate-200 bg-white p-6">
-              <h2 className="text-lg font-semibold text-slate-900">
+              <h2 className="text-lg font-semibold text-sky-700">
                 Assignments & Deliverables
               </h2>
               <div className="mt-4 space-y-4 text-sm text-slate-700">
@@ -186,7 +467,7 @@ export default function Home() {
             </section>
 
             <section className="rounded-md border border-slate-200 bg-white p-6">
-              <h2 className="text-lg font-semibold text-slate-900">
+              <h2 className="text-lg font-semibold text-sky-700">
                 Embedded Resources
               </h2>
               <p className="mt-3 text-sm text-slate-700">
@@ -219,91 +500,6 @@ export default function Home() {
             </section>
           </div>
 
-          <aside className="space-y-6">
-            <section className="rounded-md border border-slate-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-slate-900">
-                Office Hours
-              </h2>
-              <p className="mt-3 text-sm text-slate-700">
-                Tue & Thu • 2:00–3:30 PM
-              </p>
-              <p className="text-sm text-slate-700">Mitchell Hall, Room 218</p>
-              <p className="mt-2 text-sm text-slate-500">
-                Coordinator: Prof. A. Matos
-              </p>
-            </section>
-
-            <section className="rounded-md border border-slate-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-slate-900">
-                Quick Links
-              </h2>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://blog.csdn.net/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Apollo system structure
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://www.geeksforgeeks.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Concurrency in operating system
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://github.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Gflags
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://aicurious.io/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Apollo Perception
-                  </a>
-                </li>
-              </ul>
-            </section>
-
-            <section className="rounded-md border border-slate-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-slate-900">
-                Categories
-              </h2>
-              <p className="mt-3 text-sm text-slate-700">welcome (1)</p>
-            </section>
-
-            <section className="rounded-md border border-slate-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-slate-900">
-                Recent Updates
-              </h2>
-              <p className="mt-3 text-sm text-slate-700">
-                2022-02-01 — Welcome to the Apollo Project
-              </p>
-            </section>
-
-            <section className="rounded-md border border-slate-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-slate-900">
-                Archives
-              </h2>
-              <p className="mt-3 text-sm text-slate-700">February 2022</p>
-            </section>
-          </aside>
         </section>
 
         <footer className="mt-10 border-t border-slate-200 py-6 text-sm text-slate-500">
