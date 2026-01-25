@@ -215,8 +215,12 @@ export default function Home() {
       <header className="fixed left-0 right-0 top-0 z-10 border-b border-slate-200 bg-white">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded bg-blue-700 text-sm font-semibold text-white">
-              Q
+            <div className="flex h-10 w-10 items-center justify-center rounded border border-slate-200 bg-white">
+              <img
+                src="/Q.webp"
+                alt="Queen's University logo"
+                className="h-8 w-8 object-contain"
+              />
             </div>
             <div>
               <p className="text-xs font-semibold uppercase text-slate-500">
@@ -233,17 +237,6 @@ export default function Home() {
                 About us
               </Link>
             </nav>
-            <div className="flex items-center gap-3">
-              <div className="text-right">
-                <p className="text-xs text-slate-500">Student</p>
-                <p className="text-sm font-semibold text-slate-900">
-                  Riley Chen
-                </p>
-              </div>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-600">
-                RC
-              </div>
-            </div>
           </div>
         </div>
       </header>
