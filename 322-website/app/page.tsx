@@ -78,13 +78,13 @@ type CalendarWidgetProps = {
 
 function CalendarWidget({
   events,
-  selectedDateISO = "2026-01-21T12:00:00",
+  selectedDateISO,
   filterOnOrAfterSelectedDate = true,
 }: CalendarWidgetProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isListCollapsed, setIsListCollapsed] = useState(false);
   const [selectedDate, setSelectedDate] = useState(
-    new Date(selectedDateISO)
+    () => new Date(selectedDateISO ?? Date.now())
   );
 
   const visibleEvents = useMemo(() => {
@@ -139,7 +139,7 @@ function CalendarWidget({
             type="button"
             className="mt-4 flex w-full items-center justify-between rounded border border-slate-200 bg-slate-50 px-3 py-2 text-left text-sm text-slate-700"
             aria-label="Select date"
-            onClick={() => setSelectedDate(new Date(selectedDateISO))}
+            onClick={() => setSelectedDate(new Date())}
           >
             <span>{formatFullDate(selectedDate)}</span>
             <span className="text-slate-500">▸</span>
@@ -210,30 +210,42 @@ function CalendarWidget({
 }
 
 export default function Home() {
+  const [isLogoError, setIsLogoError] = useState(false);
+
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
       <header className="fixed left-0 right-0 top-0 z-10 border-b border-slate-200 bg-white">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded border border-slate-200 bg-white">
-              <img
-                src="/Q.webp"
-                alt="Queen's University logo"
-                className="h-8 w-8 object-contain"
-              />
+              {!isLogoError ? (
+                <img
+                  src="/Q.webp"
+                  alt="Queen's University logo"
+                  className="h-8 w-8 object-contain"
+                  onError={() => setIsLogoError(true)}
+                />
+              ) : (
+                <span className="text-xs font-semibold text-slate-600">
+                  Queen&apos;s
+                </span>
+              )}
             </div>
             <div>
               <p className="text-xs font-semibold uppercase text-slate-500">
                 Queen&apos;s University
               </p>
               <p className="text-base font-semibold text-slate-900">
-                CISC 322 • OMMKPN-Not-Found--404-
+                CISC 322 • Gemini CLI — Group 3
               </p>
             </div>
           </div>
           <div className="flex items-center gap-6 text-slate-600">
-            <nav className="hidden items-center gap-4 text-sm font-medium sm:flex">
-              <Link className="text-blue-700 hover:underline" href="/about">
+            <nav className="hidden items-center gap-2 text-sm font-medium sm:flex">
+              <Link
+                className="rounded px-3 py-2 text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                href="/about"
+              >
                 About us
               </Link>
             </nav>
@@ -252,7 +264,7 @@ export default function Home() {
           <div className="border-t border-slate-200 px-6 py-4">
             <p className="text-sm text-slate-500">Course Home</p>
             <h1 className="text-2xl font-semibold text-sky-700">
-              OMMKPN-Not-Found--404- group project
+              Gemini CLI — Group 3
             </h1>
           </div>
         </section>
@@ -262,63 +274,41 @@ export default function Home() {
             <CalendarWidget events={calendarEvents} />
             <section className="rounded-md border border-slate-200 bg-white p-5">
               <h2 className="text-base font-semibold text-sky-700">
-                Office Hours
+                Tutorial Hours
               </h2>
               <p className="mt-3 text-sm text-slate-700">
-                Tue & Thu • 2:00–3:30 PM
+                Tuesday • 11:30–13:30
               </p>
-              <p className="text-sm text-slate-700">Mitchell Hall, Room 218</p>
-              <p className="mt-2 text-sm text-slate-500">
-                Coordinator: Prof. A. Matos
-              </p>
+              <p className="text-sm text-slate-700">Prof Bram Adams</p>
             </section>
 
             <section className="rounded-md border border-slate-200 bg-white p-5">
               <h2 className="text-base font-semibold text-sky-700">
                 Quick Links
               </h2>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://blog.csdn.net/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Apollo system structure
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://www.geeksforgeeks.org/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Concurrency in operating system
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://github.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Gflags
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://aicurious.io/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Apollo Perception
-                  </a>
-                </li>
-              </ul>
+              <div className="mt-3 space-y-2 text-sm">
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-slate-700 hover:bg-slate-50"
+                >
+                  <span>Project roadmap — Coming soon</span>
+                  <span className="text-slate-400">↗</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-slate-700 hover:bg-slate-50"
+                >
+                  <span>Team repository — Coming soon</span>
+                  <span className="text-slate-400">↗</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-slate-700 hover:bg-slate-50"
+                >
+                  <span>Meeting notes — Coming soon</span>
+                  <span className="text-slate-400">↗</span>
+                </button>
+              </div>
             </section>
 
             <section className="rounded-md border border-slate-200 bg-white p-5">
@@ -333,7 +323,7 @@ export default function Home() {
                 Recent Updates
               </h2>
               <p className="mt-3 text-sm text-slate-700">
-                2022-02-01 — Welcome to the Group 3 Project
+                2026-01-24 — Gemini CLI kickoff
               </p>
             </section>
 
@@ -357,19 +347,14 @@ export default function Home() {
                 </button>
               </div>
               <div className="mt-4 space-y-3 text-sm text-slate-700">
-                <p className="font-semibold">
-                  IMPORTANT: The Department of Totally Useless Research
-                </p>
+                <p className="font-semibold">Gemini CLI kickoff</p>
                 <p>
-                  Today&apos;s update confirms the campus squirrels have formed a
-                  tiny focus group to review our Wi‑Fi vibes. Their preliminary
-                  findings: more acorns, fewer emails. Please refrain from
-                  notifying the clouds; they are currently busy practicing
-                  geometry. This announcement has no impact on coursework,
-                  grading, or schedules.
+                  Gemini CLI is a command-line interface for interacting with
+                  Gemini models to assist developers with coding and
+                  productivity workflows. Project description coming soon.
                 </p>
                 <p className="text-xs text-slate-500">
-                  Posted Feb 1, 2022 • Updated Apr 15, 2022
+                  Posted Jan 24, 2026 • Updated Jan 24, 2026
                 </p>
               </div>
             </section>
@@ -383,77 +368,84 @@ export default function Home() {
                   <p className="font-semibold text-slate-900">
                     Assignment 1 — Conceptual Architecture
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-4">
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://drive.google.com/file/d/1WJ-M-hBluGuTlkuKcbYqM0XkYV5r9T%5FS/view?usp=sharing"
-                      target="_blank"
-                      rel="noreferrer"
+                  <div className="mt-3 space-y-2">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Report
-                    </a>
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://docs.google.com/presentation/d/1vX66s%5F2jKwLYytALKSSfMDlTB9DSlz6Q/edit?usp=sharing&ouid=115986065545442787912&rtpof=true&sd=true"
-                      target="_blank"
-                      rel="noreferrer"
+                      <span>Report (PDF) — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Presentation
-                    </a>
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://youtu.be/L6nwc1g3N8k"
-                      target="_blank"
-                      rel="noreferrer"
+                      <span>Slides — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Video
-                    </a>
+                      <span>Video Presentation — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
                   </div>
                 </div>
                 <div>
                   <p className="font-semibold text-slate-900">
                     Assignment 2 — Concrete Architecture
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-4">
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://drive.google.com/file/d/1IraVNZ%5FA1ao1N0PjG6J6bOZAlZ6QLadM/view?usp=sharing"
-                      target="_blank"
-                      rel="noreferrer"
+                  <div className="mt-3 space-y-2">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Report
-                    </a>
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://docs.google.com/presentation/d/1B89FomDMDfUp5n1UxvbURF2UxOqJH6DA/edit?usp=sharing&ouid=115986065545442787912&rtpof=true&sd=true"
-                      target="_blank"
-                      rel="noreferrer"
+                      <span>Report (PDF) — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Presentation
-                    </a>
+                      <span>Slides — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                    >
+                      <span>Video Presentation — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
                   </div>
                 </div>
                 <div>
                   <p className="font-semibold text-slate-900">
                     Assignment 3 — Proposed Enhancement
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-4">
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://drive.google.com/file/d/1OYY9NTWatYdyWBtlLzdNf74UU2yexsun/view?usp=sharing"
-                      target="_blank"
-                      rel="noreferrer"
+                  <div className="mt-3 space-y-2">
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Report
-                    </a>
-                    <a
-                      className="text-blue-700 hover:underline"
-                      href="https://docs.google.com/presentation/d/1EaNMbc66dkeQt5RUyWe4QzxC6qgBReEy/edit?usp=sharing&ouid=115986065545442787912&rtpof=true&sd=true"
-                      target="_blank"
-                      rel="noreferrer"
+                      <span>Report (PDF) — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
                     >
-                      Presentation
-                    </a>
+                      <span>Slides — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                    >
+                      <span>Video Presentation — Coming soon</span>
+                      <span className="text-slate-400">↗</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -464,39 +456,44 @@ export default function Home() {
                 Embedded Resources
               </h2>
               <p className="mt-3 text-sm text-slate-700">
-                Apollo is an open, reliable, and comprehensive software platform
-                for autonomous vehicle development shared with partners around
-                the world.
+                Gemini CLI resources and references for the project.
               </p>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://apollo.auto/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Apollo Open Platform
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="text-blue-700 hover:underline"
-                    href="https://www.apollographql.com/"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Client Architecture Basics
-                  </a>
-                </li>
-              </ul>
+              <div className="mt-4 space-y-2 text-sm">
+                <a
+                  className="flex items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-slate-700 hover:bg-slate-50"
+                  href="https://geminicli.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>Gemini CLI</span>
+                  <span className="text-xs text-slate-400">geminicli.com</span>
+                </a>
+                <a
+                  className="flex items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-slate-700 hover:bg-slate-50"
+                  href="https://github.com/google-gemini/gemini-cli"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>Gemini CLI on GitHub</span>
+                  <span className="text-xs text-slate-400">github.com</span>
+                </a>
+                <a
+                  className="flex items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-slate-700 hover:bg-slate-50"
+                  href="https://virtuslab.com/blog/ai/how-claude-code-works/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span>How Claude Code works</span>
+                  <span className="text-xs text-slate-400">virtuslab.com</span>
+                </a>
+              </div>
             </section>
           </div>
 
         </section>
 
         <footer className="mt-10 border-t border-slate-200 py-6 text-sm text-slate-500">
-          © 2022 Group 12 • Powered by Hexo & Icarus • Galaxy, Orion, Sol 3
+          © 2026 Group 3 • Gemini CLI
         </footer>
       </main>
     </div>
