@@ -227,7 +227,7 @@ export default function Home() {
                 Queen&apos;s University
               </p>
               <p className="text-base font-semibold text-slate-900">
-                CISC 322 • 404 - Brain.exe Not Found
+                CISC 322 • OMMKPN-Not-Found--404-
               </p>
             </div>
           </div>
