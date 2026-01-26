@@ -16,42 +16,42 @@ const teamMembers: TeamMember[] = [
     firstName: "Ming",
     lastName: "Yuan",
     role: "Team Lead",
-    imageUrl: "/gemini_pic.webp",
+    imageUrl: "/M.webp",
   },
   {
     id: "presenter-1",
     firstName: "Michael",
     lastName: "Liu",
     role: "Presenter 1",
-    imageUrl: "/gemini_pic.webp",
+    imageUrl: "/Michael.webp",
   },
   {
     id: "presenter-2",
     firstName: "Enrong",
     lastName: "Pan",
     role: "Presenter 2",
-    imageUrl: "/gemini_pic.webp",
+    imageUrl: "/peter_image.webp",
   },
   {
     id: "member-2",
     firstName: "Omar",
     lastName: "",
     role: "Member",
-    imageUrl: "/gemini_pic.webp",
+    imageUrl: "/Omar.webp",
   },
   {
     id: "member-3",
     firstName: "Kosi",
     lastName: "Amobi-Oleka",
     role: "Member",
-    imageUrl: "/gemini_pic.webp",
+    imageUrl: "/kosi.jpg",
   },
   {
     id: "member-4",
     firstName: "Nandan",
-    lastName: "",
+    lastName: "Bhut",
     role: "Member",
-    imageUrl: "/gemini_pic.webp",
+    imageUrl: "/nandan.webp",
   },
 ];
 
@@ -93,7 +93,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <section className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {teamMembers.map((member) => (
             <article
               key={member.id}
@@ -108,10 +108,7 @@ export default function AboutPage() {
               </div>
               <div className="mt-3">
                 <p className="text-xs uppercase tracking-wide text-slate-500">
-                  {member.firstName}
-                </p>
-                <p className="text-lg font-semibold text-slate-900">
-                  {member.lastName || " "}
+                  {member.firstName} {member.lastName}
                 </p>
                 <p className="mt-2 text-xs text-slate-500">{member.role}</p>
               </div>
