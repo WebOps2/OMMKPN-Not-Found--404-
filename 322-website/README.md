@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OMMKPN-NotFound(404 Error)
 
-## Getting Started
+D2L/Brightspace-style course homepage for **Gemini CLI — Group 3**. The UI is designed to mimic an enterprise LMS layout with a fixed top bar, banner header, two-column dashboard, and LMS-style widgets.
 
-First, run the development server:
+## Pages
+
+- `app/page.tsx`: Course home with announcements, assignments, embedded resources, and sidebar widgets (calendar, tutorial hours, quick links, categories, updates, archives).
+- `app/about/page.tsx`: About Us page with the group name, project name, and member list.
+
+## Key UI Features
+
+- Fixed top navigation with Queen's logo and LMS-style About tab.
+- Banner header with course title.
+- Card-based dashboard layout (left sidebar + main content).
+- Calendar widget with collapsible sections and upcoming events list.
+- Assignment placeholders styled as LMS action buttons.
+- Embedded Resources styled as LMS link rows.
+
+## Tech Stack
+
+- Next.js App Router
+- React + TypeScript
+- Tailwind CSS (utility classes)
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Assets
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `public/Q.webp`: Queen's logo (used in the navbar and favicon).
+- `public/gemini_pic.webp`: Banner image placeholder.
