@@ -311,12 +311,6 @@ export default function Home() {
               </div>
             </section>
 
-            <section className="rounded-md border border-slate-200 bg-white p-5">
-              <h2 className="text-base font-semibold text-sky-700">
-                Categories
-              </h2>
-              <p className="mt-3 text-sm text-slate-700">welcome (1)</p>
-            </section>
 
             <section className="rounded-md border border-slate-200 bg-white p-5">
               <h2 className="text-base font-semibold text-sky-700">
@@ -329,7 +323,7 @@ export default function Home() {
 
             <section className="rounded-md border border-slate-200 bg-white p-5">
               <h2 className="text-base font-semibold text-sky-700">Archives</h2>
-              <p className="mt-3 text-sm text-slate-700">February 2022</p>
+              <p className="mt-3 text-sm text-slate-700">Coming Soon</p>
             </section>
           </aside>
 
