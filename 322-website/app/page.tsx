@@ -372,20 +372,24 @@ export default function Home() {
                       <span>Report (PDF)</span>
                       <span className="text-slate-400">↗</span>
                     </a>
-                    <button
-                      type="button"
+                    <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                      href="/group_files/Slides.pdf"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>Slides — Coming soon</span>
+                      <span>Slides (PDF)</span>
                       <span className="text-slate-400">↗</span>
-                    </button>
-                    <button
-                      type="button"
+                    </a>
+                    <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                      href="https://www.youtube.com/watch?v=4gD9TIHQlRs"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>Video Presentation — Coming soon</span>
+                      <span>Video Presentation</span>
                       <span className="text-slate-400">↗</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <div>
