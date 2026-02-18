@@ -363,13 +363,15 @@ export default function Home() {
                     Assignment 1 — Conceptual Architecture
                   </p>
                   <div className="mt-3 space-y-2">
-                    <button
-                      type="button"
+                    <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                      href="/group_files/CISC322_A1.pdf"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>Report (PDF) — Coming soon</span>
+                      <span>Report (PDF)</span>
                       <span className="text-slate-400">↗</span>
-                    </button>
+                    </a>
                     <button
                       type="button"
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
