@@ -348,7 +348,7 @@ export default function Home() {
                   productivity workflows. Project description coming soon.
                 </p>
                 <p className="text-xs text-slate-500">
-                  Posted Jan 24, 2026 • Updated Jan 24, 2026
+                  Posted Jan 24, 2026 • Updated Feb 17, 2026
                 </p>
               </div>
             </section>
