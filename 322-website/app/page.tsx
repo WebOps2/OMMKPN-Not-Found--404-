@@ -397,27 +397,33 @@ export default function Home() {
                     Assignment 2 — Concrete Architecture
                   </p>
                   <div className="mt-3 space-y-2">
-                    <button
-                      type="button"
+                    <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                      href="/group_files/CISC322_A2.pdf"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>Report (PDF) — Coming soon</span>
+                      <span>Report (PDF)</span>
                       <span className="text-slate-400">↗</span>
-                    </button>
-                    <button
-                      type="button"
+                    </a>
+                    <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                      href="/group_files/CISC_322_A2.pptx"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>Slides — Coming soon</span>
+                      <span>Slides (PPTX)</span>
                       <span className="text-slate-400">↗</span>
-                    </button>
-                    <button
-                      type="button"
+                    </a>
+                    <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
+                      href="https://www.youtube.com/watch?v=AS_idjVFl_Q"
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>Video Presentation — Coming soon</span>
+                      <span>Video Presentation</span>
                       <span className="text-slate-400">↗</span>
-                    </button>
+                    </a>
                   </div>
                 </div>
                 <div>
