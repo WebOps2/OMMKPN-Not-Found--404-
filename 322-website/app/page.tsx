@@ -399,7 +399,7 @@ export default function Home() {
                   <div className="mt-3 space-y-2">
                     <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
-                      href="/group_files/CISC322_A2.pdf"
+                      href="/group_files/CISC322_A2%20(1).pdf"
                       target="_blank"
                       rel="noreferrer"
                     >
@@ -408,7 +408,7 @@ export default function Home() {
                     </a>
                     <a
                       className="flex w-full items-center justify-between rounded border border-slate-200 bg-white px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50"
-                      href="/group_files/CISC_322_A2.pptx"
+                      href="/group_files/CISC%20322%20A2.pptx"
                       target="_blank"
                       rel="noreferrer"
                     >
